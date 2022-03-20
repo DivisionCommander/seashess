@@ -3,17 +3,6 @@ package bg.seachess.seachess.main;
 import java.util.Scanner;
 
 public class SeaChess {
-
-  private  static boolean actOfAI(Desk desk, char mark) {
-        while (true) {
-            byte positionX = (byte) (Math.random() * 3);
-            byte positionY = (byte) (Math.random() * 3);
-            if (desk.isValidPosition(positionX, positionY)) {
-                return desk.checkVictory(mark);
-            }
-        }
-    }
-
     static boolean playerAct(Desk desk, char mark) {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -22,60 +11,14 @@ public class SeaChess {
             byte positionY = sc.nextByte();
             positionX--;
             positionY--;
-            if (!desk.isValidPosition(positionX, positionY)) {
+            if (!desk.isPositionFree(positionX, positionY)) {
                 System.out.println("Invalid coordinates! Please, enter correct ones!");
                 continue;
             }
+            desk.occupy(positionX, positionY, mark);
             return desk.checkVictory(mark);
         }
     }
-
-//    static boolean advancedAI(Desk desk, char mark, int round) {
-//        char free = ' ';
-//        if ((round <= 2) || (round >= 9)) {
-//            return actOfAI(desk, mark);
-//        }
-//        for (byte index = 0; index < desk.length; index++) {
-//            if (desk[index][0] != free) {
-//                if ((desk[index][0] == desk[index][1]) && (desk[index][2] == free)) {
-//                    desk[index][2] = mark;
-//                    return victory(desk, mark);
-//                }
-//                if ((desk[index][0] == desk[index][2]) && (desk[index][1] == free)) {
-//                    desk[index][1] = mark;
-//                    return victory(desk, mark);
-//                }
-//            }
-//            if (desk[index][0] == free) {
-//                if ((desk[index][1] == desk[index][2]) && (desk[index][1] != free)) {
-//                    desk[index][0] = mark;
-//                    return victory(desk, mark);
-//                }
-//            }
-//            if (desk[index][0] != free) {
-//                if ((desk[0][index] == desk[1][index]) && (desk[2][index] == free)) {
-//                    desk[2][index] = mark;
-//                    return victory(desk, mark);
-//                }
-//                if ((desk[0][index] == desk[2][index]) && (desk[1][index] == free)) {
-//                    desk[1][index] = mark;
-//                    return victory(desk, mark);
-//                }
-//            }
-//            if (desk[0][index] == free) {
-//                if ((desk[1][index] == desk[2][index]) && (desk[1][index] != free)) {
-//                    desk[0][index] = mark;
-//                    return victory(desk, mark);
-//                }
-//            }
-//
-//        }
-//        if ((desk[0][0] == desk[1][1]) && (desk[2][2]) == free) {
-//            desk[2][2] = mark;
-//            return victory(desk, mark);
-//        }
-//        return actOfAI(desk, mark);
-//    }
 
     static boolean newGame() {
         Scanner sc = new Scanner(System.in);
@@ -150,6 +93,11 @@ public class SeaChess {
             desk.printDesk(System.out);
 
             boolean vsAI = (difficulty == '2') ? true : false;
+           AI ai =null;
+           if(vsAI)
+           {
+               ai =new AI();
+           }
 
             for (int round = 1; round < 10; round++) {
                 if (round % 2 != 0) {
@@ -158,7 +106,7 @@ public class SeaChess {
                 } else {
                     System.out.println("Player 2's turn!");
                     if (vsAI) {
-                        playerTwoWin = actOfAI(desk, pl2Mark);
+                        playerTwoWin = ai.actOfAI(desk, pl2Mark, round);
 
                     } else {
                         playerTwoWin = playerAct(desk, pl2Mark);

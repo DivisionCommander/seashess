@@ -43,7 +43,7 @@ public class Desk {
        }
    }
    
-   public boolean isValidPosition(byte positionX, byte positionY)
+   public boolean isPositionFree(int positionX, int positionY)
    {
        if(positionX > desk.length || positionY> desk.length)
        {
@@ -89,10 +89,13 @@ public class Desk {
        return false;
    }
 
-
-   public boolean isFree(int positionX, int positionY)
-   {
-       return desk[positionX][positionY]==FILLER;
+   public boolean isPair(int position1X, int position1Y, int position2X, int position2Y) {
+       return desk[position1X][position1Y]== desk[position2X][position2Y];
        
    }
+   public void occupy(int positionX, int positionY, char mark   )
+   {
+       desk[positionX][positionY]=mark;
+   }
+
 }
