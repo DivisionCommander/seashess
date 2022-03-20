@@ -89,13 +89,13 @@ public class Desk {
        return false;
    }
 
-   public boolean isPair(int position1X, int position1Y, int position2X, int position2Y) {
-       return desk[position1X][position1Y]== desk[position2X][position2Y];
-       
-   }
    public void occupy(int positionX, int positionY, char mark   )
    {
        desk[positionX][positionY]=mark;
    }
 
+   public char get(int positionX, int positionY)
+   {
+       return desk[positionX][positionY];
+   }
 }
