@@ -1,11 +1,15 @@
 package bg.seachess.seachess.participants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bg.seachess.seachess.main.Desk;
 
-public class AI implements Participant {
-    private char mark;
+public class ComputerParticipant implements Participant {
+    private static final Map<Integer, String> SENTENCES = populateSentences();
+    private char                              mark;
 
-    public AI(char mark) {
+    public ComputerParticipant(char mark) {
         this.mark = mark;
     }
 
@@ -61,8 +65,29 @@ public class AI implements Participant {
                     desk.occupy(0, index, mark);
                     return desk.checkVictory(mark);
                 }
-            }}
-            return randomMove(desk, mark);
+            }
+        }
+        return randomMove(desk, mark);
     }
 
+    private static Map<Integer, String> populateSentences() {
+        Map<Integer, String> sentences = new HashMap<>();
+        sentences.put(1, "You win this time! But next time I'll not fail!");
+        sentences.put(2, "Victory shall be mine next time!");
+        sentences.put(3, "Aaaa humanity....");
+        sentences.put(4, "#@#)@%^%%^#!");
+        sentences.put(5, "I lose. I need revenge!");
+        sentences.put(6, "This victory is yours by I'll take next one!");
+        sentences.put(7, "You was better this time but next?");
+        sentences.put(8, "I've been defeated...");
+        sentences.put(9, "I need more quotes!");
+        sentences.put(0, "In vino veritas");
+        return sentences;
+    }
+
+    @Override
+    public String defeat() {
+        int sentence = (int) (Math.random() * SENTENCES.size());
+        return SENTENCES.get(sentence);
+    }
 }
