@@ -2,6 +2,7 @@ package bg.seachess.seachess.main;
 
 import java.util.Scanner;
 
+import bg.seachess.seachess.desk.Desk;
 import bg.seachess.seachess.participants.ComputerParticipant;
 import bg.seachess.seachess.participants.Participant;
 import bg.seachess.seachess.participants.PlayerParticipant;
@@ -21,7 +22,7 @@ public class SeaChess {
 		System.out.println("Game No:" + gameCount + " starts!\nPlayer One use X!\nPlayer Two use O!");
 		System.out.println("Enter 2 for game versus AI. Enter anything else for game versus Player");
 
-		playerOne = new PlayerParticipant(scanner);
+		playerOne = new PlayerParticipant(new ScannerInput(scanner));
 		playerTwo = getSecondParticipant(scanner.next().charAt(0), scanner);
 		desk.printDesk(System.out);
 
@@ -45,6 +46,7 @@ public class SeaChess {
 		if (!(aNewGame)) {
 		    break;
 		}
+		desk.rebuildDesk();
 	    } while (true);
 
 	    System.out.println("\nTotal: " + gameCount + " games." + "\nPlayer One wins: " + winsP1
@@ -62,7 +64,7 @@ public class SeaChess {
 
     private Participant getSecondParticipant(char difficulty, Scanner scanner) {
 	return difficulty == '2' ? new ComputerParticipant(Participant.PLAYER_TWO_MARK)
-		: new PlayerParticipant(Participant.PLAYER_TWO_MARK, scanner);
+		: new PlayerParticipant(new ScannerInput(scanner), Participant.PLAYER_TWO_MARK);
     }
 
     public static void main(String[] args) {

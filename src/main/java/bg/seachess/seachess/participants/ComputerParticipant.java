@@ -3,91 +3,91 @@ package bg.seachess.seachess.participants;
 import java.util.HashMap;
 import java.util.Map;
 
-import bg.seachess.seachess.main.Desk;
+import bg.seachess.seachess.desk.Desk;
+import bg.seachess.seachess.desk.Position;
 
 public class ComputerParticipant implements Participant {
     private static final Map<Integer, String> SENTENCES = populateSentences();
-    private char                              mark;
+    private final char mark;
 
     public ComputerParticipant(char mark) {
-        this.mark = mark;
+	this.mark = mark;
     }
 
     private boolean randomMove(Desk desk, char mark) {
-        while (true) {
-            byte positionX = (byte) (Math.random() * 3);
-            byte positionY = (byte) (Math.random() * 3);
-            if (desk.isPositionFree(positionX, positionY)) {
-                desk.occupy(positionX, positionY, mark);
-                return desk.checkVictory(mark);
-            }
-        }
+	while (true) {
+	    byte positionX = (byte) (Math.random() * desk.getSize());
+	    byte positionY = (byte) (Math.random() * desk.getSize());
+	    Position position = new Position(positionX, positionY);
+	    if (desk.isValidPosition(position) && desk.isFieldFree(position)) {
+		desk.occupyPosition(position, mark);
+		return desk.checkVictory(mark);
+	    }
+	}
     }
 
     @Override
     public boolean act(Desk desk, int round) {
-        if ((round <= 2) || (round >= 9)) {
-            return randomMove(desk, mark);
-        }
-        char free = ' ';
-        if ((round <= 2) || (round >= 9)) {
-            return randomMove(desk, mark);
-        }
-        for (byte index = 0; index < 3; index++) {
-            if (desk.get(index, 0) != free) {
-                if ((desk.get(index, 0) == desk.get(index, 1)) && (desk.get(index, 2) == free)) {
-                    desk.occupy(index, 2, mark);
-                    return desk.checkVictory(mark);
-                }
-                if ((desk.get(index, 0) == desk.get(index, 2)) && (desk.get(index, 1) == free)) {
-                    desk.occupy(index, 1, mark);
-                    return desk.checkVictory(mark);
-                }
-            }
-            if (desk.get(index, 0) == free) {
-                if ((desk.get(index, 1) == desk.get(index, 2)) && (desk.get(index, 1) != free)) {
-                    desk.occupy(index, 0, mark);
-                    return desk.checkVictory(mark);
-                }
-            }
-            if (desk.get(index, 0) != free) {
-                if ((desk.get(0, index) == desk.get(1, index)) && (desk.get(2, index) == free)) {
-                    desk.occupy(2, index, mark);
-                    return desk.checkVictory(mark);
-                }
-                if ((desk.get(0, index) == desk.get(2, index)) && (desk.get(1, index) == free)) {
-                    desk.occupy(1, index, mark);
-                    return desk.checkVictory(mark);
-                }
-            }
-            if (desk.get(0, index) == free) {
-                if ((desk.get(1, index) == desk.get(2, index)) && (desk.get(1, index) != free)) {
-                    desk.occupy(0, index, mark);
-                    return desk.checkVictory(mark);
-                }
-            }
-        }
-        return randomMove(desk, mark);
+	char free = ' ';
+	if ((round <= 2) || (round >= desk.getSize()*desk.getSize())) {
+	    return randomMove(desk, mark);
+	}
+
+	for (byte index = 0; index < desk.getSize(); index++) {
+	    if (desk.getField(new Position(index, 0)) != free) {
+		if (desk.getField(new Position(index, 0)) == desk.getField(new Position(index, 1)) && (desk.getField(new Position(index, 2)) == free)) {
+		    desk.occupyPosition(new Position(index, 2), mark);
+		    return desk.checkVictory(mark);
+		}
+		if (desk.getField(new Position(index, 0)) == desk.getField(new Position(index, 2)) && (desk.getField(new Position(index, 1)) == free)) {
+		    desk.occupyPosition(new Position(index, 1), mark);
+		    return desk.checkVictory(mark);
+		}
+	    }
+	    if (desk.getField(new Position(index, 0)) == free) {
+		if (desk.getField(new Position(index, 1) )== desk.getField(new Position(index, 2)) && (desk.getField(new Position(index, 1) )!= free)) {
+		    desk.occupyPosition(new Position(index, 0), mark);
+		    return desk.checkVictory(mark);
+		}
+	    }
+	    if (desk.getField(new Position(index, 0) )!= free) {
+		if (desk.getField(new Position(0, index) )== desk.getField(new Position(1, index)) && (desk.getField(new Position(2, index)) == free)) {
+		    desk.occupyPosition(new Position(2, index), mark);
+		    return desk.checkVictory(mark);
+		}
+		if (desk.getField(new Position(0, index) )== desk.getField(new Position(2, index)) && (desk.getField(new Position(1, index) )== free)) {
+		    desk.occupyPosition(new Position(1, index), mark);
+		    return desk.checkVictory(mark);
+		}
+	    }
+	    if (desk.getField(new Position(0, index)) == free) {
+		if (desk.getField(new Position(1, index)) == desk.getField(new Position(2, index)) && (desk.getField(new Position(1, index) )!= free)) {
+		    desk.occupyPosition(new Position(0, index), mark);
+		    return desk.checkVictory(mark);
+		}
+	    }
+	}
+	return randomMove(desk, mark);
     }
 
     private static Map<Integer, String> populateSentences() {
-        Map<Integer, String> sentences = new HashMap<>();
-        sentences.put(1, "You win this time! But next time I'll not fail!");
-        sentences.put(2, "Victory shall be mine next time!");
-        sentences.put(3, "Aaaa humanity....");
-        sentences.put(4, "#@#)@%^%%^#!");
-        sentences.put(5, "I lose. I need revenge!");
-        sentences.put(6, "This victory is yours by I'll take next one!");
-        sentences.put(7, "You was better this time but next?");
-        sentences.put(8, "I've been defeated...");
-        sentences.put(9, "I need more quotes!");
-        sentences.put(0, "In vino veritas");
-        return sentences;
+	Map<Integer, String> sentences = new HashMap<>();
+	sentences.put(1, "You win this time! But next time I'll not fail!");
+	sentences.put(2, "Victory shall be mine next time!");
+	sentences.put(3, "Aaaa humanity....");
+	sentences.put(4, "#@#$@%^%%^#!");
+	sentences.put(5, "I lose. I need revenge!");
+	sentences.put(6, "This victory is yours by I'll take next one!");
+	sentences.put(7, "You was better this time but next?");
+	sentences.put(8, "I've been defeated...");
+	sentences.put(9, "I need more quotes!");
+	sentences.put(0, "In vino veritas");
+	return sentences;
     }
 
     @Override
     public String defeat() {
-        int sentence = (int) (Math.random() * SENTENCES.size());
-        return SENTENCES.get(sentence);
+	int sentence = (int) (Math.random() * SENTENCES.size());
+	return SENTENCES.get(sentence);
     }
 }

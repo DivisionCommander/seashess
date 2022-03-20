@@ -1,6 +1,6 @@
 package bg.seachess.seachess.participants;
 
-import bg.seachess.seachess.main.Desk;
+import bg.seachess.seachess.desk.Desk;
 
 public interface Participant {
     public static final char PLAYER_ONE_MARK = 'X';

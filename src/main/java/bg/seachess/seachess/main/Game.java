@@ -2,6 +2,7 @@ package bg.seachess.seachess.main;
 
 import java.io.PrintStream;
 
+import bg.seachess.seachess.desk.Desk;
 import bg.seachess.seachess.participants.Participant;
 
 public class Game {
