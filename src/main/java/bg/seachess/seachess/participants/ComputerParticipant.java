@@ -21,7 +21,7 @@ public class ComputerParticipant implements Participant {
 	    Position position = new Position(positionX, positionY);
 	    if (desk.isValidPosition(position) && desk.isFieldFree(position)) {
 		desk.occupyPosition(position, mark);
-		return desk.checkVictory(mark);
+		return desk.victoryCondition();
 	    }
 	}
     }
@@ -37,33 +37,33 @@ public class ComputerParticipant implements Participant {
 	    if (desk.getField(new Position(index, 0)) != free) {
 		if (desk.getField(new Position(index, 0)) == desk.getField(new Position(index, 1)) && (desk.getField(new Position(index, 2)) == free)) {
 		    desk.occupyPosition(new Position(index, 2), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 		if (desk.getField(new Position(index, 0)) == desk.getField(new Position(index, 2)) && (desk.getField(new Position(index, 1)) == free)) {
 		    desk.occupyPosition(new Position(index, 1), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 	    }
 	    if (desk.getField(new Position(index, 0)) == free) {
 		if (desk.getField(new Position(index, 1) )== desk.getField(new Position(index, 2)) && (desk.getField(new Position(index, 1) )!= free)) {
 		    desk.occupyPosition(new Position(index, 0), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 	    }
 	    if (desk.getField(new Position(index, 0) )!= free) {
 		if (desk.getField(new Position(0, index) )== desk.getField(new Position(1, index)) && (desk.getField(new Position(2, index)) == free)) {
 		    desk.occupyPosition(new Position(2, index), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 		if (desk.getField(new Position(0, index) )== desk.getField(new Position(2, index)) && (desk.getField(new Position(1, index) )== free)) {
 		    desk.occupyPosition(new Position(1, index), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 	    }
 	    if (desk.getField(new Position(0, index)) == free) {
 		if (desk.getField(new Position(1, index)) == desk.getField(new Position(2, index)) && (desk.getField(new Position(1, index) )!= free)) {
 		    desk.occupyPosition(new Position(0, index), mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 	    }
 	}

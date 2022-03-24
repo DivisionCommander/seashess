@@ -1,4 +1,4 @@
-package bg.seachess.seachess.main;
+package bg.seachess.seachess.communications;
 
 import java.util.Scanner;
 

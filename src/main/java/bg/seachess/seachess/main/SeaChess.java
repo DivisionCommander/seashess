@@ -2,7 +2,8 @@ package bg.seachess.seachess.main;
 
 import java.util.Scanner;
 
-import bg.seachess.seachess.desk.Desk;
+import bg.seachess.seachess.communications.ScannerInput;
+import bg.seachess.seachess.desk.DeskImpl;
 import bg.seachess.seachess.participants.ComputerParticipant;
 import bg.seachess.seachess.participants.Participant;
 import bg.seachess.seachess.participants.PlayerParticipant;
@@ -10,7 +11,7 @@ import bg.seachess.seachess.participants.PlayerParticipant;
 public class SeaChess {
 
     private int gameCount = 1;
-    private Desk desk = new Desk();
+    private DeskImpl desk = new DeskImpl();
     private int winsP1;
     private int winsP2;
     private Participant playerOne;
@@ -46,7 +47,7 @@ public class SeaChess {
 		if (!(aNewGame)) {
 		    break;
 		}
-		desk.rebuildDesk();
+		desk.resetDesk();
 	    } while (true);
 
 	    System.out.println("\nTotal: " + gameCount + " games." + "\nPlayer One wins: " + winsP1
@@ -66,6 +67,8 @@ public class SeaChess {
 	return difficulty == '2' ? new ComputerParticipant(Participant.PLAYER_TWO_MARK)
 		: new PlayerParticipant(new ScannerInput(scanner), Participant.PLAYER_TWO_MARK);
     }
+    
+    public DeskImpl getDesk() {return desk;}
 
     public static void main(String[] args) {
 	new SeaChess().game();

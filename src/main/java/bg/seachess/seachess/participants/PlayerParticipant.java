@@ -2,10 +2,10 @@ package bg.seachess.seachess.participants;
 
 import java.util.Scanner;
 
+import bg.seachess.seachess.communications.Input;
+import bg.seachess.seachess.communications.ScannerInput;
 import bg.seachess.seachess.desk.Desk;
 import bg.seachess.seachess.desk.Position;
-import bg.seachess.seachess.main.Input;
-import bg.seachess.seachess.main.ScannerInput;
 
 public class PlayerParticipant implements Participant {
     private Input input;
@@ -50,7 +50,7 @@ public class PlayerParticipant implements Participant {
 		next = input.getNextPosition();
 		if (desk.isValidPosition(next) && desk.isFieldFree(next)) {
 		    desk.occupyPosition(next, mark);
-		    return desk.checkVictory(mark);
+		    return desk.victoryCondition();
 		}
 		System.out.println("Invalid coordinates! Please, enter correct ones!");
 	    }

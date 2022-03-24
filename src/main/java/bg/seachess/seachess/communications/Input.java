@@ -1,4 +1,4 @@
-package bg.seachess.seachess.main;
+package bg.seachess.seachess.communications;
 
 import bg.seachess.seachess.desk.Position;
 

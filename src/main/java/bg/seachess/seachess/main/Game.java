@@ -2,17 +2,17 @@ package bg.seachess.seachess.main;
 
 import java.io.PrintStream;
 
-import bg.seachess.seachess.desk.Desk;
+import bg.seachess.seachess.desk.DeskImpl;
 import bg.seachess.seachess.participants.Participant;
 
 public class Game {
 
     private Participant playerOne;
     private Participant playerTwo;
-    private Desk        desk;
+    private DeskImpl        desk;
     private PrintStream print;
 
-    public Game(Participant playerOne, Participant playerTwo, Desk desk, PrintStream print) {
+    public Game(Participant playerOne, Participant playerTwo, DeskImpl desk, PrintStream print) {
         super();
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
